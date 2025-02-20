@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Smart Orquestra",
-  description: "Desenvolvido por Mariosa Tech",
+  description: "Deselvolvido por Mariosa Tech",
 };
 
 export default function RootLayout({
