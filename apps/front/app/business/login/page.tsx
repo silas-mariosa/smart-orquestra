@@ -40,7 +40,7 @@ export default function Login() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        push("/business/dashboard")
+        push("/business/membros")
         console.log(values)
     }
 
