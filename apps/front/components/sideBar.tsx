@@ -5,68 +5,16 @@ import Image from "next/image";
 import { CogIcon, FileMusic, LayoutDashboardIcon, ListMusic, LogOut, MonitorCogIcon, UserRoundPen } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { ItensSideBar } from "@/app/business/membros/layout";
 
 interface SideBarProps {
 	children?: React.ReactNode;
-}
-
-type ItemSideBar = {
-	name: string;
-	icon: React.ReactNode;
-	link: string;
-}
-
-type ItensSideBar = {
-	category: "menu" | "config";
-	items: ItemSideBar[];
+	sideBarItems: ItensSideBar[];
 }
 
 
-const sideBarItems: ItensSideBar[] = [
-	{
-		category: "menu",
-		items: [
-			{
-				name: "Dashboard",
-				icon: <LayoutDashboardIcon className="w-8 h-8" />,
-				link: "/business/membros",
-			},
-			{
-				name: "Perfil",
-				icon: <UserRoundPen className="w-8 h-8" />,
-				link: "/business/membros/perfil",
-			},
-			{
-				name: "Louvores",
-				icon: <FileMusic className="w-8 h-8" />,
-				link: "/business/membros/louvores",
-			},
-			{
-				name: "Grupos",
-				icon: <ListMusic className="w-8 h-8" />,
-				link: "/business/membros/grupos",
-			},
-		],
-	},
-	{
-		category: "config",
-		items: [
-			{
-				name: "Admin",
-				icon: <MonitorCogIcon className="w-8 h-8" />,
-				link: "/business/admin",
-			},
-			{
-				name: "Sair",
-				icon: <LogOut className="w-8 h-8" />,
-				link: "/business/login",
-			},
-		],
-	},
-];
 
-
-export default function SideBar({ children }: SideBarProps) {
+export default function SideBar({ children, sideBarItems }: SideBarProps) {
 	if (children === null || children === undefined) {
 		throw new Error("Children is null or undefined");
 	}
@@ -83,7 +31,7 @@ export default function SideBar({ children }: SideBarProps) {
 							item.category === "menu" ? (
 								item.items.map((item) => (
 									<div className="flex flex-col justify-center items-center" key={item.name}>
-										<a className="flex items-center rounded-sm p-2 hover:bg-white hover:text-[#25508C] mb-2" key={item.name} href={item.link}>
+										<a className="flex items-center rounded-sm p-2 hover:bg-white hover:text-[#25508C] mb-2" href={item.link}>
 											{item.icon}
 										</a>
 									</div>
@@ -95,8 +43,8 @@ export default function SideBar({ children }: SideBarProps) {
 											<DropdownMenuContent className="flex flex-col justify-center items-center min-w-[2rem] text-[#25508C] gap-6">
 												{
 													item.items.map((item) => (
-														<DropdownMenuItem key={item.name} className="hover:bg-[#25508C] hover:text-white">
-															<a href={item.link}>
+														<DropdownMenuItem className="hover:bg-[#25508C] hover:text-white">
+															<a key={item.name} href={item.link}>
 																{item.icon}
 															</a>
 														</DropdownMenuItem>

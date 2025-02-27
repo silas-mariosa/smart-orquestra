@@ -15,7 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { inputs } from "./buttonsPerfil"
 import FormSchemaPerfil from "./formSchemas"
 import { useFieldArray } from "react-hook-form"
-import { Checkbox } from "@/components/ui/checkbox"
+import AddressFormFields from "@/components/addressForm"
 
 const instrumentOptions = [
 	"Violão",
@@ -23,13 +23,21 @@ const instrumentOptions = [
 	"Bateria",
 	"Guitarra",
 	"Baixo",
-	"Saxofone",
+	"Saxofone - Tenor",
+	"Saxofone - Barítono",
+	"Saxofone - Alto",
 	"Flauta",
 	"Teclado"
 ]
 
+const positionOptions = [
+	"Primeiro",
+	"Segundo",
+	"Terceiro",
+]
+
 export default function ProfileForm() {
-	const { formPerfil, formSchemaPerfil, instrumentForm, instrumentSchema } = FormSchemaPerfil()
+	const { formPerfil, formSchemaPerfil, instrumentForm, instrumentSchema } = FormSchemaPerfil(instrumentOptions)
 
 	function onSubmit(values: z.infer<typeof formSchemaPerfil>) {
 		// Do something with the form values.
@@ -64,7 +72,7 @@ export default function ProfileForm() {
 									<FormField
 										key={index}
 										control={formPerfil.control}
-										name={input.type as "username" | "birthday" | "cep" | "street" | "number" | "neiborhood" | "city" | "complement" | "whatsapp"}
+										name={input.type as "username" | "birthday" | "whatsapp"}
 										render={({ field }) => (
 											<FormItem>
 												<FormLabel>{input.label}</FormLabel>
@@ -77,6 +85,7 @@ export default function ProfileForm() {
 									/>
 								))}
 							</div>
+							<AddressFormFields form={formPerfil} />
 							<div className="flex justify-end">
 								<Button type="submit">Alterar</Button>
 							</div>
@@ -127,64 +136,19 @@ export default function ProfileForm() {
 												/>
 												<FormField
 													control={instrumentForm.control}
-													name={`instruments.${index}.serial`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Serial</FormLabel>
-															<FormControl>
-																<Input placeholder="Número de série" {...field} />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={instrumentForm.control}
 													name={`instruments.${index}.position`}
 													render={({ field }) => (
 														<FormItem>
 															<FormLabel>Posição</FormLabel>
 															<FormControl>
-																<Input placeholder="Posição do instrumento" {...field} />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={instrumentForm.control}
-													name={`instruments.${index}.brand`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Marca</FormLabel>
-															<FormControl>
-																<Input placeholder="Marca do instrumento" {...field} />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={instrumentForm.control}
-													name={`instruments.${index}.model`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>Modelo</FormLabel>
-															<FormControl>
-																<Input placeholder="Modelo do instrumento" {...field} />
-															</FormControl>
-															<FormMessage />
-														</FormItem>
-													)}
-												/>
-												<FormField
-													control={instrumentForm.control}
-													name={`instruments.${index}.isOwn`}
-													render={({ field }) => (
-														<FormItem>
-															<FormLabel>É seu?</FormLabel>
-															<FormControl>
-																<Checkbox {...field} />
+																<select {...field} className="border p-2 rounded-md w-full">
+																	<option value="">Selecione um Posição</option>
+																	{positionOptions.map((option) => (
+																		<option key={option} value={option}>
+																			{option}
+																		</option>
+																	))}
+																</select>
 															</FormControl>
 															<FormMessage />
 														</FormItem>
@@ -209,11 +173,7 @@ export default function ProfileForm() {
 									onClick={() =>
 										append({
 											instrument: "",
-											isOwn: false,
-											serial: "",
-											position: "",
-											brand: "",
-											model: "",
+											position: 'Primeiro'
 										})
 									}
 								>

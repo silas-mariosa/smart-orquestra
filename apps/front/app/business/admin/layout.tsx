@@ -1,24 +1,13 @@
 import HeaderBar from "@/components/headerBar";
 import SideBar from "@/components/sideBar";
-import { FileMusic, LayoutDashboardIcon, ListMusic, LogOut, MonitorCogIcon, UserRoundPen } from "lucide-react";
 import type { Metadata } from "next";
+import { ItensSideBar } from "../membros/layout";
+import { GroupIcon, GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, Users2, UserSearchIcon } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Members - Smart Orquestra",
+    title: "Admin - Smart Orquestra",
     description: "Deselvolvido por Mariosa Tech",
 };
-
-
-export type ItemSideBar = {
-    name: string;
-    icon: React.ReactNode;
-    link: string;
-}
-
-export type ItensSideBar = {
-    category: "menu" | "config";
-    items: ItemSideBar[];
-}
 
 
 const sideBarItems: ItensSideBar[] = [
@@ -28,22 +17,32 @@ const sideBarItems: ItensSideBar[] = [
             {
                 name: "Dashboard",
                 icon: <LayoutDashboardIcon className="w-8 h-8" />,
-                link: "/business/membros",
+                link: "/business/admin",
             },
             {
-                name: "Perfil",
-                icon: <UserRoundPen className="w-8 h-8" />,
-                link: "/business/membros/perfil",
+                name: "Membros",
+                icon: <UserSearchIcon className="w-8 h-8" />,
+                link: "/business/admin/membros",
+            },
+            {
+                name: "Instrumentos",
+                icon: <GuitarIcon className="w-8 h-8" />,
+                link: "/business/admin/instrumentos",
             },
             {
                 name: "Louvores",
-                icon: <FileMusic className="w-8 h-8" />,
-                link: "/business/membros/louvores",
+                icon: <ListMusic className="w-8 h-8" />,
+                link: "/business/admin/louvores",
             },
             {
                 name: "Grupos",
-                icon: <ListMusic className="w-8 h-8" />,
-                link: "/business/membros/grupos",
+                icon: <GroupIcon className="w-8 h-8" />,
+                link: "/business/admin/grupos",
+            },
+            {
+                name: "Usuários",
+                icon: <Users2 className="w-8 h-8" />,
+                link: "/business/admin/users",
             },
         ],
     },
@@ -52,8 +51,8 @@ const sideBarItems: ItensSideBar[] = [
         items: [
             {
                 name: "Admin",
-                icon: <MonitorCogIcon className="w-8 h-8" />,
-                link: "/business/admin",
+                icon: <Monitor className="w-8 h-8" />,
+                link: "/business/membros",
             },
             {
                 name: "Sair",

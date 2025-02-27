@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export default function FormSchemaPerfil() {
+export default function FormSchemaPerfil(intrumentos: string[]) {
   const formSchemaPerfil = z.object({
     username: z.string().min(2, {
       message: "Nome deve ter pelo menos 2 caracteres.",
@@ -54,12 +54,12 @@ export default function FormSchemaPerfil() {
     instruments: z
       .array(
         z.object({
-          instrument: z.string().min(1, "Selecione um instrumento"),
-          isOwn: z.boolean(),
-          serial: z.string().min(1, "Serial é obrigatório"),
-          position: z.string().min(1, "Posição é obrigatória"),
-          brand: z.string().min(1, "Marca é obrigatória"),
-          model: z.string().min(1, "Modelo é obrigatório"),
+          instrument: z.string().refine((val) => intrumentos.includes(val), {
+            message: "Instrumento inválido",
+          }),
+          position: z.enum(["Primeiro", "Segundo", "Terceiro"], {
+            message: "Posição é obrigatória",
+          }),
         })
       )
       .optional(),
