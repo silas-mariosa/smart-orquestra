@@ -1,19 +1,22 @@
+import { formatarNumeroCelular } from "@/config/formater";
+
 interface ProfileFormProps {
   type: string;
   label: string;
   placeholder: string;
   typeInput: string;
+  func?: any;
 }
 
 export const inputs: ProfileFormProps[] = [
   {
-    type: "username",
+    type: "name",
     label: "Nome completo",
     placeholder: "Preencha seu nome completo",
     typeInput: "text",
   },
   {
-    type: "birthday",
+    type: "brithday",
     label: "Data de aniversário",
     placeholder: "xx/xx/xxxx",
     typeInput: "date",
@@ -23,5 +26,6 @@ export const inputs: ProfileFormProps[] = [
     label: "Whatsapp",
     placeholder: "Preencha o número do whatsapp",
     typeInput: "text",
+    func: formatarNumeroCelular,
   },
 ];
