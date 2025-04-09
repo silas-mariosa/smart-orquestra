@@ -14,8 +14,12 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { inputs } from "./buttonsPerfil"
 import FormSchemaPerfil from "./formSchemas"
-import { useFieldArray } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import AddressFormFields from "@/components/addressForm"
+import PerfilHook from "./perfilHook"
+import { useEffect, useMemo, useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "@/components/ui/use-toast"
 
 const instrumentOptions = [
 	"Violão",
@@ -37,13 +41,66 @@ const positionOptions = [
 ]
 
 export default function ProfileForm() {
-	const { formPerfil, formSchemaPerfil, instrumentForm, instrumentSchema } = FormSchemaPerfil(instrumentOptions)
+	const [isLoading, setIsLoading] = useState(false)
+	const { instrumentForm, instrumentSchema, formPerfil, formSchemaPerfil } = FormSchemaPerfil(instrumentOptions)
+	const { Perfil, PerfilError, PerfilIsLoading, refetchPerfil, postPerfil } = PerfilHook()
 
-	function onSubmit(values: z.infer<typeof formSchemaPerfil>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values)
-	}
+	const onSubmit = async (values: z.infer<typeof formSchemaPerfil>) => {
+		setIsLoading(true);
+
+		const data = {
+			name: values.name,
+			brithday: values.brithday,
+			whatsapp: values.whatsapp.replace(/\D/g, ""),
+			cep: values.cep,
+			endereco: values.endereco,
+			numero: values.numero,
+			bairro: values.bairro,
+			cidade: values.cidade,
+			estado: values.estado,
+			complemento: values.complemento,
+		};
+
+		try {
+			const response = await postPerfil(data);
+			if (response.ok) {
+				toast({
+					title: "Perfil atualizado com sucesso!",
+					description: "Seus dados foram salvos corretamente.",
+					duration: 3000,
+				});
+			} else {
+				throw new Error(response.statusText ?? "Erro ao atualizar perfil");
+			}
+		} catch (error: any) {
+			console.error(error);
+			toast({
+				title: "Erro ao atualizar perfil",
+				description: error?.message ?? "Ocorreu um erro inesperado.",
+				variant: "destructive",
+				duration: 3000,
+			});
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		if (Perfil) {
+			formPerfil.reset({
+				name: Perfil?.user?.name ?? "",
+				brithday: Perfil?.user?.brithday?.split("T")[0] ?? "",
+				cep: Perfil?.address?.cep ?? "",
+				endereco: Perfil?.address?.endereco ?? "",
+				numero: Perfil?.address?.numero ?? "",
+				bairro: Perfil?.address?.bairro ?? "",
+				cidade: Perfil?.address?.cidade ?? "",
+				estado: Perfil?.address?.estado ?? "",
+				complemento: Perfil?.address?.complemento ?? "",
+				whatsapp: Perfil?.user?.whatsapp ?? "", // se existir esse campo
+			});
+		}
+	}, [Perfil]);
 
 	const { fields, append, remove } = useFieldArray({
 		control: instrumentForm.control,
@@ -72,12 +129,23 @@ export default function ProfileForm() {
 									<FormField
 										key={index}
 										control={formPerfil.control}
-										name={input.type as "username" | "birthday" | "whatsapp"}
+										name={input.type as "name" | "brithday" | "whatsapp"}
 										render={({ field }) => (
 											<FormItem>
 												<FormLabel>{input.label}</FormLabel>
 												<FormControl>
-													<Input placeholder={input.placeholder} type={input.typeInput} {...field} />
+													<Input
+														placeholder={input.placeholder}
+														type={input.typeInput}
+														{...field}
+														onChange={(e) => {
+															let value = e.target.value;
+															if (input.type === "whatsapp") {
+																value = input.func(e.target.value);
+															}
+															field.onChange(value)
+														}}
+													/>
 												</FormControl>
 												<FormMessage />
 											</FormItem>

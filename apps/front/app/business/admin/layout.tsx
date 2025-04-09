@@ -3,6 +3,7 @@ import SideBar from "@/components/sideBar";
 import type { Metadata } from "next";
 import { ItensSideBar } from "../membros/layout";
 import { GroupIcon, GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, Users2, UserSearchIcon } from "lucide-react";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
     title: "Admin - Smart Orquestra",
@@ -74,6 +75,7 @@ export default function RootLayout({
                 <SideBar sideBarItems={sideBarItems}>
                     <HeaderBar />
                     {children}
+                    <Toaster />
                 </SideBar>
             </body>
         </html>

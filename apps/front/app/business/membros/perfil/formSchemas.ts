@@ -6,29 +6,32 @@ import { z } from "zod";
 
 export default function FormSchemaPerfil(intrumentos: string[]) {
   const formSchemaPerfil = z.object({
-    username: z.string().min(2, {
+    name: z.string().min(2, {
       message: "Nome deve ter pelo menos 2 caracteres.",
     }),
-    birthday: z.string().min(9, {
+    brithday: z.string().min(9, {
       message: "Data de aniversário de conter dia/mês/ano.",
     }),
     cep: z.string().min(8, {
       message: "CEP deve conter 8 digitos.",
     }),
-    street: z.string().min(2, {
+    endereco: z.string().min(2, {
       message: "Rua deve ter pelo menos 2 caracteres.",
     }),
-    number: z.string().min(1, {
+    numero: z.string().min(1, {
       message: "Número deve conter pelo menos 1 digito.",
     }),
-    neiborhood: z.string().min(2, {
+    bairro: z.string().min(2, {
       message: "Bairro deve ter pelo menos 2 caracteres.",
     }),
-    city: z.string().min(2, {
+    cidade: z.string().min(2, {
       message: "Cidade deve ter pelo menos 2 caracteres.",
     }),
-    complement: z.string().min(2, {
-      message: "Complemento deve ter pelo menos 2 caracteres.",
+    estado: z.string().min(2, {
+      message: "Estado deve ter pelo menos 2 caracteres.",
+    }),
+    complemento: z.string().min(2, {
+      message: "complemento deve ter pelo menos 2 caracteres.",
     }),
     whatsapp: z.string().min(11, {
       message: "Whatsapp deve conter 11 digitos.",
@@ -38,14 +41,15 @@ export default function FormSchemaPerfil(intrumentos: string[]) {
   const formPerfil = useForm<z.infer<typeof formSchemaPerfil>>({
     resolver: zodResolver(formSchemaPerfil),
     defaultValues: {
-      username: "",
-      birthday: "",
+      name: "",
+      brithday: "",
       cep: "",
-      street: "",
-      number: "",
-      neiborhood: "",
-      city: "",
-      complement: "",
+      endereco: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+      complemento: "",
       whatsapp: "",
     },
   });
@@ -72,5 +76,10 @@ export default function FormSchemaPerfil(intrumentos: string[]) {
     },
   });
 
-  return { formPerfil, formSchemaPerfil, instrumentForm, instrumentSchema };
+  return {
+    instrumentForm,
+    instrumentSchema,
+    formPerfil,
+    formSchemaPerfil,
+  };
 }

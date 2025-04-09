@@ -2,23 +2,28 @@
 
 import React from "react";
 import Image from "next/image";
-import { CogIcon, FileMusic, LayoutDashboardIcon, ListMusic, LogOut, MonitorCogIcon, UserRoundPen } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { CogIcon } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ItensSideBar } from "@/app/business/membros/layout";
+import { usePathname, useRouter } from "next/navigation";
+import Cookies from "universal-cookie";
+import { useCookie } from "@/context/useAuth";
+
 
 interface SideBarProps {
 	children?: React.ReactNode;
 	sideBarItems: ItensSideBar[];
 }
 
-
-
 export default function SideBar({ children, sideBarItems }: SideBarProps) {
+	const pathName = usePathname();
+	const { removeCookie, userData } = useCookie()
 	if (children === null || children === undefined) {
 		throw new Error("Children is null or undefined");
 	}
-
+	console.log("userData", userData?.accessLevel)
+	const { push } = useRouter();
 	return (
 		<div className="flex w-full relative bg-gray-200">
 			<aside className="hidden sm:flex flex-col bg-[#25508C] text-white shadow-lg w-[75px] min-h-screen">
@@ -31,20 +36,30 @@ export default function SideBar({ children, sideBarItems }: SideBarProps) {
 							item.category === "menu" ? (
 								item.items.map((item) => (
 									<div className="flex flex-col justify-center items-center" key={item.name}>
-										<a className="flex items-center rounded-sm p-2 hover:bg-white hover:text-[#25508C] mb-2" href={item.link}>
+										<a className={`flex items-center rounded-sm p-2 ${pathName === item.link && "bg-white text-[#25508C]"} hover:bg-slate-400 hover:text-white mb-2`} href={item.link}>
 											{item.icon}
 										</a>
 									</div>
 								))) :
 								(
-									<div className="fixed bottom-4 left-9 -translate-x-1/2">
+									<div className="fixed bottom-4 left-9 -translate-x-1/2" key={item.category}>
 										<DropdownMenu>
 											<DropdownMenuTrigger className="hover:bg-white hover:text-[#25508C] p-2 rounded-sm"><CogIcon className="w-8 h-8" /></DropdownMenuTrigger>
 											<DropdownMenuContent className="flex flex-col justify-center items-center min-w-[2rem] text-[#25508C] gap-6">
 												{
 													item.items.map((item) => (
-														<DropdownMenuItem className="hover:bg-[#25508C] hover:text-white">
-															<a key={item.name} href={item.link}>
+														<DropdownMenuItem
+															key={item.name}
+															className="hover:bg-[#25508C] hover:text-white"
+															disabled={item.name === "Admin" && userData?.accessLevel === "Membro"}
+															onClick={() => {
+																if (item.name === "Sair") {
+																	removeCookie("authTokenSmart");
+																	push("/business/login");
+																}
+															}}
+														>
+															<a href={item.link}>
 																{item.icon}
 															</a>
 														</DropdownMenuItem>
