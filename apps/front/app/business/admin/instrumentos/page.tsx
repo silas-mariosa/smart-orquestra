@@ -14,7 +14,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/component
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { SheetModel } from "@/components/sheetInstrumento/sheetMenuInstrumento";
 import { CategoriesType } from "./IInstrumentosDTO";
-import CategoriesHooks from "@/hooks/instrumentosHooks/categoriesHooks";
+import CategoriesHooks from "@/hooks/categoriesHooks/categoriesHooks";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Instrumentos() {
 	const {
@@ -25,8 +26,7 @@ export default function Instrumentos() {
 		deleteCategory
 	} = CategoriesHooks()
 
-	const { form } = FormSchemaInstrumentos()
-	const { filteredData, onSubmit, resetForm } = InstrumentoHook()
+	const { filteredData, onSubmit, resetForm, form } = InstrumentoHook()
 	const [categoriaOptions, setCategoriaOptions] = useState<CategoriesType[]>([]);
 
 	useEffect(() => {
@@ -34,7 +34,7 @@ export default function Instrumentos() {
 			setCategoriaOptions(categories);
 		}
 	}, [categories]);
-
+	console.log(filteredData)
 	const sortedFilteredData = filteredData.sort((a: any, b: any) => {
 		if (a.nome < b.nome) {
 			return -1;
@@ -93,28 +93,36 @@ export default function Instrumentos() {
 									/>
 									<FormField
 										control={form.control}
-										name={"categoria"}
+										name="categories"
 										render={({ field }) => (
 											<FormItem>
 												<FormLabel>Categorias</FormLabel>
-												<FormControl>
-													<select {...field} className="border p-2 rounded-md w-full">
-														<option value="">Selecione uma posição</option>
+												<Select
+													onValueChange={field.onChange}
+													value={field.value}
+													defaultValue={field.value}
+												>
+													<FormControl>
+														<SelectTrigger className="w-full">
+															<SelectValue placeholder="Selecione uma categoria" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
 														{categoriaOptions.map((option) => (
-															<option key={option.id} value={option.name}>
+															<SelectItem key={option.id} value={option.name}>
 																{option.name}
-															</option>
+															</SelectItem>
 														))}
-													</select>
-												</FormControl>
+													</SelectContent>
+												</Select>
 												<FormMessage />
 											</FormItem>
 										)}
 									/>
+
 								</div>
 								<div className="flex justify-end gap-6">
 									<Button type="button" onClick={() => {
-										form.reset();
 										resetForm()
 									}}>Limpar</Button>
 									<Button onClick={() => setCurrentPage(1)} type="submit">Filtrar</Button>
@@ -140,7 +148,7 @@ export default function Instrumentos() {
 						{currentRows.map((louvor) => (
 							<TableRow key={louvor.id}>
 								<TableCell className="col-span-1">{louvor.nameInstrument}</TableCell>
-								<TableCell className="col-span-1">{louvor.categoria}</TableCell>
+								<TableCell className="col-span-1">{louvor.categories}</TableCell>
 								<TableCell>
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
