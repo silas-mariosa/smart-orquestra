@@ -13,9 +13,11 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FormSchemaSheetInstrumentos from "../sheetLouvores/formSchema"
 import { CategoriesType } from "@/app/business/admin/instrumentos/IInstrumentosDTO"
+import SheetInstrumentoHook from "./sheetInstrumentoHook"
+import { Textarea } from "../ui/textarea"
 
 interface SheetModelProps {
 	titulo: string
@@ -23,15 +25,23 @@ interface SheetModelProps {
 	categories: CategoriesType[]
 }
 
-const onSubmit = (data: any) => console.log(data)
 
 export function SheetModel({ titulo, subtitulo, categories }: SheetModelProps) {
+	const { onSubmit, postPending, postSuccess } = SheetInstrumentoHook()
+
+	useEffect(() => {
+		if (postSuccess) {
+			setIsSheetOpen(false);
+			form.reset();
+		}
+	}, [postSuccess]);
+
 	const [isSheetOpen, setIsSheetOpen] = useState(false)
 	const { form } = FormSchemaSheetInstrumentos()
 	return (
 		<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 			<SheetTrigger asChild>
-				<Button variant="outline">Adicionar</Button>
+				<Button variant="default">Adicionar</Button>
 			</SheetTrigger>
 			<SheetContent>
 				<SheetHeader>
@@ -50,7 +60,7 @@ export function SheetModel({ titulo, subtitulo, categories }: SheetModelProps) {
 									<FormItem>
 										<FormLabel>{"Nome do instrumento"}</FormLabel>
 										<FormControl>
-											<Input placeholder={"Buscar por instrumento"} type={"text"} {...field} />
+											<Input placeholder={"Nome do instrumento"} type={"text"} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -58,7 +68,20 @@ export function SheetModel({ titulo, subtitulo, categories }: SheetModelProps) {
 							/>
 							<FormField
 								control={form.control}
-								name={"categoria"}
+								name={"typeInstrument"}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>{"Tipo do instrumento"}</FormLabel>
+										<FormControl>
+											<Input placeholder={"Tipo de instrumento"} type={"text"} {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name={"categories"}
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Categoria</FormLabel>
@@ -76,11 +99,34 @@ export function SheetModel({ titulo, subtitulo, categories }: SheetModelProps) {
 									</FormItem>
 								)}
 							/>
+							<FormField
+								control={form.control}
+								name={"description"}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>{"Descrição do instrumento"}</FormLabel>
+										<FormControl>
+											<Textarea placeholder={"Descrição do instrumento"} {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
-						<div className="flex justify-center items-center mt-8">
-							<Button onClick={() => {
-							}
-							} type="submit">Criar instrumento</Button>
+						<div className="flex justify-center items-center mt-8 gap-4">
+							<Button
+								variant="destructive"
+								onClick={() => { setIsSheetOpen(false); form.reset() }}
+								disabled={postPending}
+							>
+								Cancelar
+							</Button>
+							<Button
+								type="submit"
+								disabled={postPending}
+							>
+								{postPending ? "Cadastrando..." : "Cadastrar"}
+							</Button>
 						</div>
 					</form>
 				</Form>
