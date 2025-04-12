@@ -5,14 +5,14 @@ import { z } from "zod";
 export default function FormSchemaInstrumentos() {
   const formSchema = z.object({
     nameInstrument: z.string().optional(),
-    categoria: z.string().optional(),
+    categories: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nameInstrument: "",
-      categoria: undefined,
+      categories: "",
     },
   });
 
