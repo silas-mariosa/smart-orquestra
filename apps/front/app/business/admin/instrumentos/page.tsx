@@ -5,10 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { use, useEffect, useState } from "react";
-import FormSchemaInstrumentos from "./formSchema";
-import InstrumentoHook from "./instrumentosHook";
-import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, Loader2, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
@@ -16,17 +14,21 @@ import { SheetModel } from "@/components/sheetInstrumento/sheetMenuInstrumento";
 import { CategoriesType } from "./IInstrumentosDTO";
 import CategoriesHooks from "@/hooks/categoriesHooks/categoriesHooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import InstrumentoFiltroHook from "./instrumentosFiltroHook";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import InstrumentosAPIs from "@/hooks/instrumentosHooks/instrumentosHooks";
 
 export default function Instrumentos() {
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [instrumentoToDelete, setInstrumentoToDelete] = useState<{ id: string, name: string } | null>(null);
+
 	const {
-		categories,
-		categoriesError,
-		categoriesIsLoading,
-		refetchCategories,
-		deleteCategory
+		categories
 	} = CategoriesHooks()
 
-	const { filteredData, onSubmit, resetForm, form } = InstrumentoHook()
+	const { filteredData, onSubmit, resetForm, form, } = InstrumentoFiltroHook()
+	const { deletePending, mutateDeleteInstrumentos } = InstrumentosAPIs()
+
 	const [categoriaOptions, setCategoriaOptions] = useState<CategoriesType[]>([]);
 
 	useEffect(() => {
@@ -34,7 +36,7 @@ export default function Instrumentos() {
 			setCategoriaOptions(categories);
 		}
 	}, [categories]);
-	console.log(filteredData)
+
 	const sortedFilteredData = filteredData.sort((a: any, b: any) => {
 		if (a.nome < b.nome) {
 			return -1;
@@ -138,9 +140,10 @@ export default function Instrumentos() {
 				</div>
 				<Table>
 					<TableHeader className="bg-gray-100">
-						<TableRow className="grid-cols-2">
+						<TableRow className="grid-cols-4">
 							<TableHead className="col-span-1">Instrumento</TableHead>
 							<TableHead className="col-span-1">Categoria</TableHead>
+							<TableHead className="col-span-1">Descrição</TableHead>
 							<TableHead className="col-span-1">Ações</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -149,6 +152,7 @@ export default function Instrumentos() {
 							<TableRow key={louvor.id}>
 								<TableCell className="col-span-1">{louvor.nameInstrument}</TableCell>
 								<TableCell className="col-span-1">{louvor.categories}</TableCell>
+								<TableCell className="col-span-1">{louvor.description}</TableCell>
 								<TableCell>
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
@@ -158,13 +162,60 @@ export default function Instrumentos() {
 											</Button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent align="end">
-											<DropdownMenuItem
-												onClick={() => alert(`Editar ${louvor.nameInstrument}`)}
-											>
+											<DropdownMenuItem onClick={() => alert(`Editar ${louvor.id}`)}>
 												Detalhes
+											</DropdownMenuItem>
+											<DropdownMenuItem
+												onClick={() => {
+													if (!louvor.id || !louvor.nameInstrument) return;
+													setInstrumentoToDelete({ id: louvor.id, name: louvor.nameInstrument });
+													setDeleteDialogOpen(true);
+												}}
+												className="text-red-600"
+											>
+												Deletar
 											</DropdownMenuItem>
 										</DropdownMenuContent>
 									</DropdownMenu>
+									<Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+										<DialogContent >
+											<DialogHeader>
+												<DialogTitle>Confirmar exclusão</DialogTitle>
+												<DialogDescription>
+													Tem certeza que deseja deletar <strong>{louvor.nameInstrument}</strong>? Essa ação não pode ser desfeita.
+												</DialogDescription>
+											</DialogHeader>
+											<DialogFooter>
+												<Button
+													disabled={deletePending}
+													variant="outline"
+													onClick={() => {
+														setDeleteDialogOpen(false);
+														setInstrumentoToDelete(null);
+													}}
+												>
+													Cancelar
+												</Button>
+												<Button
+													disabled={deletePending}
+													variant="destructive"
+													onClick={() => {
+														if (instrumentoToDelete?.id) {
+															mutateDeleteInstrumentos(instrumentoToDelete.id);
+														}
+														setDeleteDialogOpen(false);
+														setInstrumentoToDelete(null);
+													}}
+												>
+													{deletePending ? (
+														<Loader2 />
+													) : (
+														"Deletar"
+													)}
+												</Button>
+											</DialogFooter>
+										</DialogContent>
+									</Dialog>
 								</TableCell>
 							</TableRow>
 						))}

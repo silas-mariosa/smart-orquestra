@@ -4,9 +4,9 @@ export type CategoriesType = {
 };
 
 export interface InstrumentosType {
-  id: number;
-  nameInstrument: string;
-  typeInstrument: string;
-  categories: string;
-  description: string;
+  id?: string;
+  nameInstrument?: string;
+  typeInstrument?: string;
+  categories?: string;
+  description?: string;
 }
