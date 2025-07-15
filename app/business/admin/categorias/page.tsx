@@ -36,7 +36,8 @@ export default function CategoriasAdmin() {
       if (!res.ok) throw new Error("Erro ao buscar categorias");
       const data = await res.json();
       setCategorias(data);
-    } catch {
+    } catch (err) {
+      console.log(err);
       setCategorias([]);
     } finally {
       setLoading(false);
@@ -75,7 +76,8 @@ export default function CategoriasAdmin() {
       setForm({ name: "" });
       setEditCategoria(null);
       fetchCategorias();
-    } catch {
+    } catch (err) {
+      console.log(err);
       alert("Erro ao salvar categoria");
     }
   };
@@ -91,7 +93,8 @@ export default function CategoriasAdmin() {
       });
       if (!res.ok) throw new Error("Erro ao excluir categoria");
       fetchCategorias();
-    } catch {
+    } catch (err) {
+      console.log(err);
       alert("Erro ao excluir categoria");
     }
   };

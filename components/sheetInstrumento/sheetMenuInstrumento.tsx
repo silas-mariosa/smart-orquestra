@@ -2,10 +2,8 @@
 
 import {
 	Sheet,
-	SheetClose,
 	SheetContent,
 	SheetDescription,
-	SheetFooter,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
@@ -13,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import FormSchemaSheetInstrumentos from "../sheetLouvores/formSchema"
 import { CategoriesType } from "@/app/business/admin/instrumentos/IInstrumentosDTO"
 import SheetInstrumentoHook from "./sheetInstrumentoHook"
@@ -27,14 +25,7 @@ interface SheetModelProps {
 
 
 export function SheetModel({ titulo, subtitulo, categories }: SheetModelProps) {
-	const { onSubmit, postPending, postSuccess } = SheetInstrumentoHook()
-
-	useEffect(() => {
-		if (postSuccess) {
-			setIsSheetOpen(false);
-			form.reset();
-		}
-	}, [postSuccess]);
+	const { onSubmit, postPending } = SheetInstrumentoHook()
 
 	const [isSheetOpen, setIsSheetOpen] = useState(false)
 	const { form } = FormSchemaSheetInstrumentos()

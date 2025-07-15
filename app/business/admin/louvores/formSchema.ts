@@ -2,10 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export default function FormSchemaLouvores(
-  intrumentos: string[],
-  categoria: string[]
-) {
+export default function FormSchemaLouvores() {
   const formSchema = z.object({
     nomeLouvor: z.string(),
     descricao: z.string(),

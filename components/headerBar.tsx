@@ -1,7 +1,6 @@
 'use client'
 
 import { BellIcon, InfoIcon } from "lucide-react";
-import { Card, CardContent, CardDescription } from "./ui/card";
 import { useCookie } from "@/context/useAuth";
 
 export default function HeaderBar() {

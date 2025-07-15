@@ -39,6 +39,7 @@ export default function CalendarioMembros() {
         const data = await res.json();
         setEnsaios(data);
       } catch (err) {
+        console.log(err);
         setEnsaios([]);
       } finally {
         setLoading(false);

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { CogIcon, Menu } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";

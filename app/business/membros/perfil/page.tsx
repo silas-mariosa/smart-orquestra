@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { inputs } from "./buttonsPerfil"
 import FormSchemaPerfil from "./formSchemas"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useFieldArray } from "react-hook-form"
 import AddressFormFields from "@/components/addressForm"
 import PerfilHook from "./perfilHook"
 import { useEffect, useMemo, useState } from "react"
@@ -23,7 +23,6 @@ import { toast } from "@/components/ui/use-toast"
 import { Loader2, Trash2 } from "lucide-react"
 import { useForm as useFormPassword } from "react-hook-form";
 import { apiUrl } from "@/config/url"
-import { useCookie } from "@/context/useAuth"
 import Cookies from "universal-cookie";
 
 const positionOptions = [
@@ -37,9 +36,7 @@ export default function ProfileForm() {
 	const { instrumentForm, instrumentSchema, formPerfil, formSchemaPerfil } = FormSchemaPerfil()
 	const {
 		Perfil,
-		PerfilError,
 		PerfilIsLoading,
-		refetchPerfil,
 		postPerfil,
 		instrumentosPessoais,
 		instrumentosPessoaisIsLoading,
@@ -155,8 +152,6 @@ export default function ProfileForm() {
 		defaultValues: { password: "", confirmPassword: "" },
 	});
 	const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
-	const { getCookie } = useCookie()
-	const token = getCookie("authTokenSmart");
 	const onSubmitPassword = async (values: z.infer<typeof passwordSchema>) => {
 		setIsUpdatingPassword(true);
 		try {

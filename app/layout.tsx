@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { CookieProvider } from "@/context/useAuth";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Providers } from "@/context/useProvider";
 
 export const metadata: Metadata = {

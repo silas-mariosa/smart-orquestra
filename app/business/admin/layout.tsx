@@ -1,7 +1,7 @@
 import HeaderBar from "@/components/headerBar";
 import SideBar from "@/components/sideBar";
 import { ItensSideBar } from "../membros/layout";
-import { GroupIcon, GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, Users2, UserSearchIcon } from "lucide-react";
+import { GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, Users2, UserSearchIcon } from "lucide-react";
 
 const sideBarItems: ItensSideBar[] = [
     {

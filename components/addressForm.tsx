@@ -21,6 +21,7 @@ export default function AddressFormFields({ form }: any) {
 		numero: '',
 		complemento: ''
 	});
+	console.log(addressData);
 
 	const fetchAddressData = async (cep: string) => {
 		try {

@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
 	TableHead,
 	TableHeader,
@@ -40,7 +39,7 @@ export default function Louvores() {
 		}
 	}, [categories]);
 
-	const { form } = FormSchemaLouvores([], categoriaOptions.map((c: any) => c.name))
+	const { form } = FormSchemaLouvores()
 	const { onSubmit, filteredData, resetForm, louvoresIsLoading, louvoresError, instrumentOptions, instrumentosIsLoading } = LouvoresHook()
 	const { mutateDeleteLouvor, deletePending } = LouvoresAPIs()
 

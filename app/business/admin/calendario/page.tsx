@@ -44,6 +44,7 @@ export default function CalendarioAdmin() {
         const data = await res.json();
         setEnsaios(data);
       } catch (err) {
+        console.log(err);
         setEnsaios([]);
       } finally {
         setLoading(false);
@@ -84,6 +85,7 @@ export default function CalendarioAdmin() {
       setModalOpen(false);
       setForm({ title: "", description: "", time: "" });
     } catch (err) {
+      console.log(err);
       alert("Erro ao criar ensaio");
     }
   };
@@ -158,6 +160,7 @@ export default function CalendarioAdmin() {
                   setEnsaios((prev) => prev.map(e => e.id === atualizado.id ? atualizado : e));
                   setModalOpen(false);
                 } catch (err) {
+                  console.log(err);
                   alert("Erro ao atualizar ensaio");
                 }
               }}
@@ -209,6 +212,7 @@ export default function CalendarioAdmin() {
                       setEnsaios((prev) => prev.filter(e => e.id !== eventoSelecionado.id));
                       setModalOpen(false);
                     } catch (err) {
+                      console.log(err);
                       alert("Erro ao excluir ensaio");
                     }
                   }}

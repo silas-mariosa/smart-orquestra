@@ -2,10 +2,8 @@
 
 import {
 	Sheet,
-	SheetClose,
 	SheetContent,
 	SheetDescription,
-	SheetFooter,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
@@ -27,8 +25,8 @@ interface SheetModelProps {
 
 export function SheetLouvor({ titulo, subtitulo, categories }: SheetModelProps) {
 	const [isSheetOpen, setIsSheetOpen] = useState(false)
-	const { form } = FormSchemaAddLouvores([], categories)
-	const { mutatePostLouvor, postPending, postSuccess } = LouvoresAPIs()
+	const { form } = FormSchemaAddLouvores()
+	const { mutatePostLouvor, postPending } = LouvoresAPIs()
 	const { instrumentos, instrumentosIsLoading } = InstrumentosAPIs()
 
 	// Extrair nomes únicos dos instrumentos para o select

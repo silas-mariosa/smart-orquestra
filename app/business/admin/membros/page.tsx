@@ -9,14 +9,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input";
-import { Check, ChevronLeft, ChevronRight, Plus, Key, Copy, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Key, Copy, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -64,7 +63,6 @@ export default function Membros() {
     const { form } = FormSchemaMembros(instrumentOptions, positions)
     const {
         onSubmit,
-        filteredData,
         resetForm,
         createUserWithPassword,
         resetUserPassword,

@@ -1,20 +1,11 @@
 import { useState } from "react";
-import FormSchemaLouvores from "./formSchema";
 import { LouvorType } from "@/hooks/louvoresHooks/louvoresHooks";
 import LouvoresAPIs from "@/hooks/louvoresHooks/louvoresHooks";
 import InstrumentosAPIs from "@/hooks/instrumentosHooks/instrumentosHooks";
 
-const CategoriaOptions = [
-	"Corda",
-	"Sopro",
-	"Percussão",
-	"Teclas",
-	"Voz",
-	"Outros",
-]
+
 
 export default function LouvoresHook() {
-	const { formSchema } = FormSchemaLouvores([], CategoriaOptions)
 	const { louvores, louvoresIsLoading, louvoresError } = LouvoresAPIs()
 	const { instrumentos, instrumentosIsLoading } = InstrumentosAPIs()
 

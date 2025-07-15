@@ -2,10 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export default function FormSchemaAddLouvores(
-  intrumentos: string[],
-  categoria: string[]
-) {
+export default function FormSchemaAddLouvores() {
   const formSchema = z.object({
     nomeLouvor: z.string().min(1, { message: "Nome do louvor é obrigatório" }),
     descricao: z.string().min(1, { message: "Descrição é obrigatória" }),
