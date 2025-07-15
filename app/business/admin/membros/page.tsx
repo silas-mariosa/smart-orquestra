@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Cookies from "universal-cookie";
 import InstrumentosAPIs from "@/hooks/instrumentosHooks/instrumentosHooks";
+import { apiUrl } from "@/config/url";
 
 const instrumentOptions = [
     "Violão",
@@ -99,7 +100,7 @@ export default function Membros() {
             try {
                 const cookies = new Cookies();
                 const token = cookies.get("authTokenSmart");
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/"}usuario`, {
+                const res = await fetch(`${apiUrl}usuario`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -433,13 +434,14 @@ export default function Membros() {
                                         size="sm"
                                         onClick={() => handleResetPassword(item.usuario.id.toString())}
                                         disabled={isResettingPassword}
-                                        className="flex items-center gap-1"
+                                        className="flex items-center gap-1 cursor-pointer"
                                     >
                                         <Key className="w-3 h-3" />
                                         {isResettingPassword && selectedUserId === item.usuario.id.toString() ? "Redefinindo..." : "Redefinir Senha"}
                                     </Button>
                                     <Button
-                                        variant="secondary"
+                                        className="bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                                        variant="default"
                                         size="sm"
                                         onClick={() => {
                                             setInstrumentosSelecionados(item.instrumentos);

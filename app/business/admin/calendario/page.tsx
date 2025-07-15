@@ -192,6 +192,7 @@ export default function CalendarioAdmin() {
                 <Button type="submit">Salvar</Button>
                 <Button
                   type="button"
+                  className="bg-red-500 hover:bg-red-600 cursor-pointer"
                   variant="destructive"
                   onClick={async () => {
                     if (!window.confirm("Tem certeza que deseja excluir este ensaio?")) return;

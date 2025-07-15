@@ -123,7 +123,7 @@ export default function CategoriasAdmin() {
                   <TableCell>{cat.name}</TableCell>
                   <TableCell>
                     <Button size="sm" variant="outline" onClick={() => { setEditCategoria(cat); setForm({ name: cat.name }); setModalOpen(true); }}>Editar</Button>
-                    <Button size="sm" variant="destructive" className="ml-2" onClick={() => handleDelete(cat.id)}>Excluir</Button>
+                    <Button size="sm" variant="destructive" className="ml-2 cursor-pointer bg-red-500 hover:bg-red-600" onClick={() => handleDelete(cat.id)}>Excluir</Button>
                   </TableCell>
                 </TableRow>
               ))}

@@ -3,6 +3,7 @@ import FormSchemaMembros from "./formSchema";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import Cookies from "universal-cookie";
+import { apiUrl } from "@/config/url";
 
 const positions = [
     "Primeiro",
@@ -114,7 +115,7 @@ export default function MembrosHook() {
         try {
             const cookies = new Cookies();
             const token = cookies.get("authTokenSmart");
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/"}usuario/create-with-password`, {
+            const response = await fetch(`${apiUrl}usuario/create-with-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -157,7 +158,7 @@ export default function MembrosHook() {
         try {
             const cookies = new Cookies();
             const token = cookies.get("authTokenSmart");
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/"}usuario/${userId}/reset-password`, {
+            const response = await fetch(`${apiUrl}usuario/${userId}/reset-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 "use client"
 
+import { apiUrl } from "@/config/url";
 import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 
@@ -15,8 +16,7 @@ interface Louvor {
     id: string;
     nameLouvor: string;
     description: string;
-    instrumentoName: string;
-    instrumentoCategories: string;
+    instrumentos: string;
     createdAt: string;
 }
 
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
             try {
                 const cookies = new Cookies();
                 const token = cookies.get("authTokenSmart");
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/"}dashboard/admin`, {
+                const res = await fetch(`${apiUrl}dashboard/admin`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* Últimos Usuários e Louvores */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                         {/* Últimos Usuários */}
                         <div className="bg-white rounded-2xl shadow-lg p-8">
                             <h2 className="text-xl font-semibold mb-4 text-primary">Últimos 5 Usuários Cadastrados</h2>
@@ -161,7 +161,6 @@ export default function AdminDashboard() {
                                         <tr className="bg-primary/10">
                                             <th className="text-left py-3 px-3 font-semibold text-primary">Nome</th>
                                             <th className="text-left py-3 px-3 font-semibold text-primary">Instrumento</th>
-                                            <th className="text-left py-3 px-3 font-semibold text-primary">Categoria</th>
                                             <th className="text-left py-3 px-3 font-semibold text-primary">Data</th>
                                         </tr>
                                     </thead>
@@ -169,8 +168,7 @@ export default function AdminDashboard() {
                                         {dashboard.ultimosLouvores.map((louvor) => (
                                             <tr key={louvor.id} className="even:bg-muted/60 hover:bg-accent/10 transition-colors">
                                                 <td className="py-2 px-3 font-medium">{louvor.nameLouvor}</td>
-                                                <td className="py-2 px-3 text-sm">{louvor.instrumentoName}</td>
-                                                <td className="py-2 px-3 text-sm text-gray-600">{louvor.instrumentoCategories}</td>
+                                                <td className="py-2 px-3 text-sm">{louvor.instrumentos}</td>
                                                 <td className="py-2 px-3 text-sm text-gray-500">{formatarData(louvor.createdAt)}</td>
                                             </tr>
                                         ))}

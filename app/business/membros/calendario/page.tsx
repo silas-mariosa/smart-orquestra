@@ -64,7 +64,14 @@ export default function CalendarioMembros() {
             locale="pt-br"
             height={600}
             eventClick={(info) => {
-              setEventoSelecionado(info.event.extendedProps as Ensaio);
+              const evento = {
+                id: info.event.id,
+                title: info.event.title,
+                description: info.event.extendedProps.description || '',
+                start: info.event.start?.toISOString() || '',
+                end: info.event.end?.toISOString() || ''
+              };
+              setEventoSelecionado(evento);
               setModalOpen(true);
             }}
           />
@@ -76,11 +83,30 @@ export default function CalendarioMembros() {
             <DialogTitle>Detalhes do Ensaio</DialogTitle>
           </DialogHeader>
           {eventoSelecionado && (
-            <div className="space-y-2">
-              <div><b>Título:</b> {eventoSelecionado.title}</div>
-              <div><b>Descrição:</b> {eventoSelecionado.description}</div>
-              <div><b>Data:</b> {eventoSelecionado.start?.split('T')[0]}</div>
-              <div><b>Horário:</b> {eventoSelecionado.start?.split('T')[1]?.slice(0, 5)}</div>
+            <div className="space-y-3">
+              <div>
+                <span className="font-semibold text-gray-900">Título:</span>
+                <p className="text-gray-700 mt-1">{eventoSelecionado.title || 'Sem título'}</p>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-900">Descrição:</span>
+                <p className="text-gray-700 mt-1">{eventoSelecionado.description || 'Sem descrição'}</p>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-900">Data:</span>
+                <p className="text-gray-700 mt-1">
+                  {eventoSelecionado.start ? new Date(eventoSelecionado.start).toLocaleDateString('pt-BR') : 'Data não definida'}
+                </p>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-900">Horário:</span>
+                <p className="text-gray-700 mt-1">
+                  {eventoSelecionado.start ? new Date(eventoSelecionado.start).toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) : 'Horário não definido'}
+                </p>
+              </div>
             </div>
           )}
         </DialogContent>

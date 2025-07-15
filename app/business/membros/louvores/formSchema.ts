@@ -7,7 +7,6 @@ export default function FormSchemaLouvores() {
     nomeLouvor: z.string(),
     descricao: z.string(),
     instrument: z.string().optional(),
-    categoria: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -15,8 +14,7 @@ export default function FormSchemaLouvores() {
     defaultValues: {
       nomeLouvor: "",
       descricao: "",
-      instrument: undefined,
-      categoria: undefined,
+      instrument: "",
     },
   });
 

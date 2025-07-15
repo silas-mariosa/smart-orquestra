@@ -1,5 +1,6 @@
 "use client"
 
+import { apiUrl } from "@/config/url";
 import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 
@@ -29,7 +30,7 @@ export default function Menbers() {
             try {
                 const cookies = new Cookies();
                 const token = cookies.get("authTokenSmart");
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333/api/"}dashboard/membros`, {
+                const res = await fetch(`${apiUrl}dashboard/membros`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

@@ -3,30 +3,45 @@ import FormSchemaLouvores from "./formSchema";
 import { LouvorType } from "@/hooks/louvoresHooks/louvoresHooks";
 import LouvoresAPIs from "@/hooks/louvoresHooks/louvoresHooks";
 import InstrumentosAPIs from "@/hooks/instrumentosHooks/instrumentosHooks";
-import CategoriesHooks from "@/hooks/categoriesHooks/categoriesHooks";
 
 export default function LouvoresHook() {
 	const { formSchema } = FormSchemaLouvores()
 	const { louvores, louvoresIsLoading, louvoresError } = LouvoresAPIs()
 	const { instrumentos, instrumentosIsLoading } = InstrumentosAPIs()
-	const { categories, categoriesIsLoading } = CategoriesHooks()
 
 	const initiation = {
 		nomeLouvor: "",
 		descricao: "",
-		instrument: undefined as string | undefined,
-		categoria: undefined as string | undefined,
+		instrument: "",
 	}
 	const [values, setValues] = useState(initiation)
 
 	// Filtra os dados reais da API baseado nos valores do formulário
 	const filteredData = (louvores || []).filter((item: LouvorType) => {
-		return (
-			(!values.nomeLouvor || item.nameLouvor.toLowerCase().includes(values.nomeLouvor.toLowerCase())) &&
-			(!values.descricao || item.description.toLowerCase().includes(values.descricao.toLowerCase())) &&
-			(values.instrument === "" || values.instrument === undefined || (item.instrumentoName && item.instrumentoName.toLowerCase().includes(values.instrument.toLowerCase()))) &&
-			(values.categoria === "" || values.categoria === undefined || (item.instrumentoCategories && item.instrumentoCategories.toLowerCase().includes(values.categoria.toLowerCase())))
-		);
+		// Filtro por nome
+		const nomeMatch = !values.nomeLouvor ||
+			item.nameLouvor.toLowerCase().includes(values.nomeLouvor.toLowerCase());
+
+		// Filtro por descrição
+		const descricaoMatch = !values.descricao ||
+			item.description.toLowerCase().includes(values.descricao.toLowerCase());
+
+		// Filtro por instrumento - comparação exata
+		const instrumentMatch = values.instrument === "" ||
+			(item.instrumentos && item.instrumentos.trim().toLowerCase() === values.instrument.trim().toLowerCase());
+
+		// Debug para verificar os valores
+		if (values.instrument && values.instrument !== "") {
+			console.log(`Filtrando instrumento: "${item.nameLouvor}"`, {
+				itemInstrumentos: `"${item.instrumentos}"`,
+				filterInstrument: `"${values.instrument}"`,
+				instrumentMatch,
+				trimmedItem: `"${item.instrumentos?.trim()}"`,
+				trimmedFilter: `"${values.instrument.trim()}"`
+			});
+		}
+
+		return nomeMatch && descricaoMatch && instrumentMatch;
 	});
 
 	const onSubmit = (formValues: any) => {
@@ -35,8 +50,7 @@ export default function LouvoresHook() {
 		const cleanedValues = {
 			nomeLouvor: formValues.nomeLouvor || "",
 			descricao: formValues.descricao || "",
-			instrument: formValues.instrument || undefined,
-			categoria: formValues.categoria || undefined,
+			instrument: formValues.instrument || "",
 		};
 		console.log("Cleaned values:", cleanedValues);
 		setValues(cleanedValues);
@@ -48,13 +62,11 @@ export default function LouvoresHook() {
 
 	// Extrair nomes únicos dos instrumentos para o select
 	const instrumentOptions = Array.from(new Set(
-		instrumentos?.map((instrument: any) => instrument.nameInstrument) || []
+		instrumentos?.map((instrument: any) => instrument.nameInstrument).filter(Boolean) || []
 	)).sort();
 
-	// Extrair nomes únicos das categorias para o select
-	const categoriaOptions = Array.from(new Set(
-		categories?.map((category: any) => category.name) || []
-	)).sort();
+	console.log("Instrumentos carregados:", instrumentos);
+	console.log("Opções de instrumentos:", instrumentOptions);
 
 	return {
 		onSubmit,
@@ -63,8 +75,6 @@ export default function LouvoresHook() {
 		louvoresIsLoading,
 		louvoresError,
 		instrumentOptions,
-		instrumentosIsLoading,
-		categoriaOptions,
-		categoriesIsLoading
+		instrumentosIsLoading
 	}
 }

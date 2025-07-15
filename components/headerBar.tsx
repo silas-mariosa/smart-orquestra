@@ -7,7 +7,7 @@ import { useCookie } from "@/context/useAuth";
 export default function HeaderBar() {
     const { userData } = useCookie()
     return (
-        <header className="w-full px-0 md:px-6 py-4 bg-white shadow-lg rounded-b-2xl flex items-center justify-between mt-[36px] sm:mt-0 mb-4 transition-all duration-200">
+        <header className="w-full px-0 md:px-6 py-4 bg-white shadow-lg rounded-b-2xl flex items-center justify-between sm:mt-0 mb-4 transition-all duration-200">
             <div className="flex-1 flex items-center">
                 {/* Espaço para logo ou título se desejar */}
             </div>

@@ -26,9 +26,7 @@ export default function Louvores() {
 		resetForm,
 		louvoresIsLoading,
 		instrumentOptions,
-		instrumentosIsLoading,
-		categoriaOptions,
-		categoriesIsLoading
+		instrumentosIsLoading
 	} = LouvoresHook()
 
 	const { form } = FormSchemaLouvores()
@@ -63,7 +61,7 @@ export default function Louvores() {
 		setCurrentPage(currentPage - 1);
 	};
 
-	if (louvoresIsLoading || instrumentosIsLoading || categoriesIsLoading) {
+	if (louvoresIsLoading || instrumentosIsLoading) {
 		return (
 			<div className="flex items-center justify-center min-h-[400px]">
 				<div className="flex items-center gap-2">
@@ -83,7 +81,7 @@ export default function Louvores() {
 				<CardContent>
 					<Form {...form}>
 						<form id="form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 								<FormField
 									control={form.control}
 									name={"nomeLouvor"}
@@ -130,30 +128,14 @@ export default function Louvores() {
 										</FormItem>
 									)}
 								/>
-								<FormField
-									control={form.control}
-									name={"categoria"}
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Categoria</FormLabel>
-											<FormControl>
-												<select {...field} className="border p-2 rounded-md w-full">
-													<option value="">Selecione uma categoria</option>
-													{categoriaOptions.map((categoria: string) => (
-														<option key={categoria} value={categoria}>
-															{categoria}
-														</option>
-													))}
-												</select>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
 							</div>
 							<div className="flex justify-end gap-6">
 								<Button type="button" onClick={() => {
-									form.reset();
+									form.reset({
+										nomeLouvor: "",
+										descricao: "",
+										instrument: ""
+									});
 									resetForm()
 								}}>Limpar</Button>
 								<Button onClick={() => setCurrentPage(1)} type="submit">Filtrar</Button>
@@ -165,10 +147,9 @@ export default function Louvores() {
 			<Card className="p-2 mx-4 rounded-sm mt-4">
 				<Table>
 					<TableHeader className="bg-gray-100">
-						<TableRow className="grid-cols-6">
+						<TableRow className="grid-cols-5">
 							<TableHead className="col-span-1">Nome do Louvor</TableHead>
 							<TableHead className="col-span-1">Descrição</TableHead>
-							<TableHead className="col-span-1">Categoria</TableHead>
 							<TableHead className="col-span-1">Instrumento</TableHead>
 							<TableHead className="col-span-1">PDF</TableHead>
 							<TableHead className="col-span-1">MP3</TableHead>
@@ -177,7 +158,7 @@ export default function Louvores() {
 					<TableBody>
 						{currentRows.length === 0 ? (
 							<TableRow>
-								<TableCell colSpan={6} className="text-center py-8 text-gray-500">
+								<TableCell colSpan={5} className="text-center py-8 text-gray-500">
 									Nenhum louvor encontrado
 								</TableCell>
 							</TableRow>
@@ -186,8 +167,7 @@ export default function Louvores() {
 								<TableRow key={louvor.id}>
 									<TableCell className="col-span-1">{louvor.nameLouvor}</TableCell>
 									<TableCell className="col-span-1">{louvor.description}</TableCell>
-									<TableCell className="col-span-1">{louvor.instrumentoCategories}</TableCell>
-									<TableCell className="col-span-1">{louvor.instrumentoName}</TableCell>
+									<TableCell className="col-span-1">{louvor.instrumentos}</TableCell>
 									<TableCell className="col-span-1">
 										{louvor.pdf ? (
 											<a
