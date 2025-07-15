@@ -319,11 +319,15 @@ export default function Home() {
             CRM gratuito para gestão de orquestras
           </p>
           <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-            <span>© 2024 Smart Orquestra</span>
+            <span>© 2025 Smart Orquestra</span>
             <span>•</span>
             <span>100% Gratuito</span>
             <span>•</span>
             <span>Feito com ❤️ para músicos</span>
+            <span>•</span>
+            <span>Todos os direitos reservados</span>
+            <span>•</span>
+            <span>Desenvolvido por <a href="https://www.mariosatec.com.br" className="text-primary hover:text-primary-dark transition-colors">Mariosa Tech</a></span>
           </div>
         </div>
       </footer>
