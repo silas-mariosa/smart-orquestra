@@ -86,7 +86,7 @@ export default function Login() {
 									</FormItem>
 								)}
 							/>
-							<div className="flex justify-end">
+							{/*<div className="flex justify-end">
 								<Button
 									type="button"
 									onClick={() => push("/business/login/forgot-password")}
@@ -95,7 +95,7 @@ export default function Login() {
 								>
 									Esqueceu sua senha?
 								</Button>
-							</div>
+							</div>*/}
 							<Button disabled={isLoading} className="w-full h-12 text-base font-semibold mt-2" type="submit">
 								{isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
 								{isLoading ? "Carregando..." : "Entrar"}
@@ -103,10 +103,7 @@ export default function Login() {
 						</form>
 					</Form>
 				</CardContent>
-				<CardFooter className="flex flex-col items-center gap-2 text-muted-foreground text-xs bg-transparent border-none mt-2">
-					<span>Ainda não tem uma conta?</span>
-					<Button onClick={() => push("/business/login/signup")} variant="link" className="p-0 text-primary text-sm font-semibold">Criar uma conta</Button>
-				</CardFooter>
+
 			</Card>
 		</div>
 	);
