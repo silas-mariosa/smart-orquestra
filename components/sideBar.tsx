@@ -96,7 +96,7 @@ export default function SideBar({ children, sideBarItems }: SideBarProps) {
 	}
 	const { push } = useRouter();
 	return (
-		<div className="flex w-full relative bg-gray-200">
+		<div className="flex w-full relative bg-white">
 			<aside className="hidden sm:flex flex-col bg-[#25508C] text-white shadow-lg w-[75px] min-h-screen">
 				<div className="flex justify-center items-center h-[50px] mt-2 mb-10">
 					<Image src="/piano.png" alt="Logo" width={50} height={50}></Image>
@@ -147,7 +147,7 @@ export default function SideBar({ children, sideBarItems }: SideBarProps) {
 			<div className="sm:hidden bg-[#2563EB] top-0 w-full fixed h-[36px] z-10">
 				<div className="flex flex-row justify-between mx-1 items-center">
 					<h3 className={`pl-2 font-bold text-lg text-white`}>
-						Smart Gabinete
+						Smart Orquestra
 					</h3>
 					<SheetSideBar sideBarItems={sideBarItems} />
 				</div>

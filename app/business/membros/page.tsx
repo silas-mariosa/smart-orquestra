@@ -48,7 +48,7 @@ export default function Menbers() {
     }, []);
 
     return (
-        <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-8 p-4 md:p-8">
+        <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-8 p-4 md:p-8 bg-white">
             <h1 className="text-2xl md:text-3xl font-bold mb-8 text-primary text-center font-sans">Dashboard</h1>
             {loading && <div className="text-muted-foreground text-lg">Carregando...</div>}
             {error && <div className="bg-error/10 border border-error text-error px-4 py-3 rounded-xl mb-4 font-medium">{error}</div>}

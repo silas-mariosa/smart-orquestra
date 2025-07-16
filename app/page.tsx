@@ -323,11 +323,10 @@ export default function Home() {
             <span>•</span>
             <span>100% Gratuito</span>
             <span>•</span>
-            <span>Feito com ❤️ para músicos</span>
-            <span>•</span>
             <span>Todos os direitos reservados</span>
-            <span>•</span>
-            <span>Desenvolvido por <a href="https://www.mariosatec.com.br" className="text-primary hover:text-primary-dark transition-colors">Mariosa Tech</a></span>
+          </div>
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <span>Desenvolvido por <a href="https://www.mariosatec.com.br" className="text-primary hover:text-primary-dark transition-colors font-bold">Mariosa Tech</a></span>
           </div>
         </div>
       </footer>
