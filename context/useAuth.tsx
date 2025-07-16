@@ -50,11 +50,9 @@ export const CookieProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = cookies.get('authTokenSmart');
-    console.log("Token detectado no cookie:", token);
     if (token) {
       try {
         const decoded = jwtDecode<DecodedToken>(token);
-        console.log("Token decodificado:", decoded);
         setUserData(decoded);
       } catch (err) {
         console.error('Erro ao decodificar token:', err);

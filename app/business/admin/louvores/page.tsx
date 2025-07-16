@@ -72,6 +72,8 @@ export default function Louvores() {
 		indexOfLastRow
 	);
 
+	console.log(currentRows)
+
 	const totalPages = Math.ceil(sortedFilteredData.length / rowsPerPage);
 
 	const nextPage = () => {
@@ -199,7 +201,6 @@ export default function Louvores() {
 						<TableRow>
 							<TableHead>Nome do Louvor</TableHead>
 							<TableHead>Descrição</TableHead>
-							<TableHead>Categoria</TableHead>
 							<TableHead>Instrumento</TableHead>
 							<TableHead>PDF</TableHead>
 							<TableHead>MP3</TableHead>
@@ -211,8 +212,7 @@ export default function Louvores() {
 							<TableRow key={louvor.id} className="even:bg-muted/60 hover:bg-accent/10 transition-colors">
 								<TableCell>{louvor.nameLouvor}</TableCell>
 								<TableCell>{louvor.description}</TableCell>
-								<TableCell>{louvor.instrumentoCategories || "N/A"}</TableCell>
-								<TableCell>{louvor.instrumentoName || "N/A"}</TableCell>
+								<TableCell>{louvor.instrumentos || ""}</TableCell>
 								<TableCell>
 									{louvor.pdf ? (
 										<a href={louvor.pdf} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">PDF</a>
