@@ -1,7 +1,7 @@
 import HeaderBar from "@/components/headerBar";
 import SideBar from "@/components/sideBar";
 import { ItensSideBar } from "../membros/layout";
-import { GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, Users2, UserSearchIcon } from "lucide-react";
+import { GuitarIcon, LayoutDashboardIcon, ListMusic, LogOut, Monitor, UserSearchIcon, Calendar, Tag, Music, Users2 } from "lucide-react";
 
 const sideBarItems: ItensSideBar[] = [
     {
@@ -24,17 +24,17 @@ const sideBarItems: ItensSideBar[] = [
             },
             {
                 name: "Louvores",
-                icon: <ListMusic className="w-8 h-8" />,
+                icon: <Music className="w-8 h-8" />,
                 link: "/business/admin/louvores",
             },
             {
                 name: "Categorias",
-                icon: <ListMusic className="w-8 h-8" />,
+                icon: <Tag className="w-8 h-8" />,
                 link: "/business/admin/categorias",
             },
             {
                 name: "Calendário",
-                icon: <LayoutDashboardIcon className="w-8 h-8" />,
+                icon: <Calendar className="w-8 h-8" />,
                 link: "/business/admin/calendario",
             },
             {

@@ -105,7 +105,6 @@ export default function Membros() {
                 });
                 if (!res.ok) throw new Error("Erro ao buscar usuários");
                 const data = await res.json();
-                console.log('USUARIOS:', data); // Depuração
                 setUsuarios(data);
             } catch (err: any) {
                 setUsuariosError(err.message || "Erro desconhecido");
@@ -116,6 +115,8 @@ export default function Membros() {
         fetchUsuarios();
     }, []);
 
+    console.log("instrumentosSelecionados", instrumentosSelecionados);
+    console.log("usuarios", usuarios);
     // Filtro aplicado aos usuários reais
     const filteredUsuarios = usuarios.filter((item) => {
         // Se todos os filtros estiverem vazios, retorna todos
@@ -125,7 +126,7 @@ export default function Membros() {
         return (
             (!form.getValues().nome || (item.usuario?.name && item.usuario.name.toLowerCase().includes(form.getValues().nome?.toLowerCase()))) &&
             (!form.getValues().position || (Array.isArray(item.instrumentos) && item.instrumentos?.some((inst: any) => inst.position && typeof inst.position === 'string' && inst.position.toLowerCase().includes(form.getValues().position?.toLowerCase())))) &&
-            (!form.getValues().instrument || (Array.isArray(item.instrumentos) && item.instrumentos?.some((inst: any) => inst.owner && typeof inst.owner === 'string' && inst.owner.toLowerCase().includes(form.getValues().instrument?.toLowerCase())))) &&
+            (!form.getValues().instrument || (Array.isArray(item.instrumentos) && item.instrumentos?.some((inst: any) => inst.instrumentName && typeof inst.instrumentName === 'string' && inst.instrumentName.toLowerCase().includes(form.getValues().instrument?.toLowerCase())))) &&
             (form.getValues().actived === undefined || form.getValues().actived === null || item.usuario?.active === form.getValues().actived)
         );
     });
@@ -554,36 +555,40 @@ export default function Membros() {
 
             {/* Dialog para exibir instrumentos do usuário */}
             <Dialog open={instrumentosDialogOpen} onOpenChange={setInstrumentosDialogOpen}>
-                <DialogContent className="sm:max-w-[500px]">
+                <DialogContent className="w-[95vw] max-w-[600px] p-2 sm:p-6">
                     <DialogHeader>
-                        <DialogTitle>Instrumentos do Usuário</DialogTitle>
+                        <DialogTitle className="text-base sm:text-lg">Instrumentos do Usuário</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-2">
+                    <div className="space-y-2 overflow-x-auto">
                         {instrumentosSelecionados.length === 0 ? (
-                            <div className="text-gray-500">Nenhum instrumento vinculado.</div>
+                            <div className="text-gray-500 text-sm">Nenhum instrumento vinculado.</div>
                         ) : (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Posição</TableHead>
-                                        <TableHead>Proprietário</TableHead>
-                                        <TableHead>Série</TableHead>
-                                        <TableHead>Marca</TableHead>
-                                        <TableHead>Modelo</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {instrumentosSelecionados.map((inst, idx) => (
-                                        <TableRow key={inst.id || idx}>
-                                            <TableCell>{inst.position}</TableCell>
-                                            <TableCell>{inst.owner}</TableCell>
-                                            <TableCell>{inst.serie}</TableCell>
-                                            <TableCell>{inst.brand}</TableCell>
-                                            <TableCell>{inst.model}</TableCell>
+                            <div className="min-w-[500px]">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="text-xs sm:text-sm">Instrumento</TableHead>
+                                            <TableHead className="text-xs sm:text-sm">Posição</TableHead>
+                                            <TableHead className="text-xs sm:text-sm">Proprietário</TableHead>
+                                            <TableHead className="text-xs sm:text-sm">Série</TableHead>
+                                            <TableHead className="text-xs sm:text-sm">Marca</TableHead>
+                                            <TableHead className="text-xs sm:text-sm">Modelo</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {instrumentosSelecionados.map((inst, idx) => (
+                                            <TableRow key={inst.id || idx}>
+                                                <TableCell className="text-xs sm:text-sm">{inst.instrumentName}</TableCell>
+                                                <TableCell className="text-xs sm:text-sm">{inst.position}</TableCell>
+                                                <TableCell className="text-xs sm:text-sm">{inst.owner}</TableCell>
+                                                <TableCell className="text-xs sm:text-sm">{inst.serie}</TableCell>
+                                                <TableCell className="text-xs sm:text-sm">{inst.brand}</TableCell>
+                                                <TableCell className="text-xs sm:text-sm">{inst.model}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
                         )}
                     </div>
                     <div className="flex justify-end mt-4">

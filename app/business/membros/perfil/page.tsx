@@ -282,6 +282,7 @@ export default function ProfileForm() {
 										<Button
 											type="button"
 											variant="destructive"
+											className="bg-red-500 hover:bg-red-600"
 											size="sm"
 											onClick={() => instrumento.id && mutateDeleteInstrumentoPessoal(instrumento.id)}
 											disabled={deleteInstrumentoPessoalPending}
@@ -424,6 +425,7 @@ export default function ProfileForm() {
 												type="button"
 												onClick={() => remove(index)}
 												variant="destructive"
+												className="bg-red-500 hover:bg-red-600"
 											>
 												Remover Instrumento
 											</Button>
